@@ -28,7 +28,6 @@ import warnings
 from collections.abc import Mapping
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
 
 import yaml
 from dateutil import tz
@@ -47,7 +46,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 def load_configs(
-    path: str, ctx: os._Environ = os.environ, kind: Optional[str] = None
+    path: str, ctx: os._Environ = os.environ, kind: str | None = None
 ) -> list:
     """Load multiple slo-generator configs from a folder path.
 
@@ -67,8 +66,8 @@ def load_configs(
 
 
 def load_config(
-    path: str, ctx: os._Environ = os.environ, kind: Optional[str] = None
-) -> Optional[dict]:
+    path: str, ctx: os._Environ = os.environ, kind: str | None = None
+) -> dict | None:
     """Load any slo-generator config, from a local path, a GCS URL, or directly
     from a string content.
 
@@ -110,9 +109,7 @@ def load_config(
         raise
 
 
-def parse_config(
-    path: Optional[str] = None, content=None, ctx: os._Environ = os.environ
-):
+def parse_config(path: str | None = None, content=None, ctx: os._Environ = os.environ):
     """Load a yaml configuration file and resolve environment variables in it.
 
     Args:
@@ -188,14 +185,14 @@ def setup_logging():
 
     # Ignore Cloud SDK warning when using a user instead of service account
     try:
-        from google.auth._default import _CLOUD_SDK_CREDENTIALS_WARNING
+        from google.auth._default import _CLOUD_SDK_CREDENTIALS_WARNING  # noqa: PLC0415
 
         warnings.filterwarnings("ignore", message=_CLOUD_SDK_CREDENTIALS_WARNING)
     except ImportError:
         pass
 
 
-def get_human_time(timestamp: int, timezone: Optional[str] = None) -> str:
+def get_human_time(timestamp: int, timezone: str | None = None) -> str:
     """Get human-readable timestamp from UNIX UTC timestamp.
 
     Args:
