@@ -15,6 +15,7 @@
 `prometheus.py`
 Prometheus backend implementation.
 """
+# ruff: noqa: UP045,UP007
 
 import json
 import logging
