@@ -163,7 +163,7 @@ class PrometheusBackend:
             labels = {}
         filter = PrometheusBackend._fmt_query(filter, window, operators, labels)
         LOGGER.debug(f"Query: {filter}")
-        response = self.client.query(metric=filter)
+        response = self.client.query(metric=filter, time=timestamp)
         response = json.loads(response)
         LOGGER.debug(pprint.pformat(response))
         return response
