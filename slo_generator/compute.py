@@ -19,6 +19,7 @@ Compute utilities.
 import logging
 import pprint
 import time
+from typing import Optional
 
 from slo_generator import constants, utils
 from slo_generator.migrations.migrator import report_v2tov1
@@ -30,7 +31,7 @@ LOGGER = logging.getLogger(__name__)
 def compute(  # noqa: PLR0913
     slo_config: dict,
     config: dict,
-    timestamp: float | None = None,
+    timestamp: Optional[float] = None,
     client=None,
     do_export: bool = False,
     delete: bool = False,

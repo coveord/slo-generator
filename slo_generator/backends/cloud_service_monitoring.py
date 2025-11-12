@@ -22,6 +22,7 @@ import logging
 import os
 import warnings
 from collections.abc import Sequence
+from typing import Optional, Union
 
 import google.api_core.exceptions
 from google.cloud.monitoring_v3 import ServiceMonitoringServiceClient
@@ -118,7 +119,7 @@ class CloudServiceMonitoringBackend:
         """
         return self.retrieve_slo(timestamp, window, slo_config)
 
-    def delete(self, timestamp: int, window: int, slo_config: dict) -> dict | None:
+    def delete(self, timestamp: int, window: int, slo_config: dict) -> Optional[dict]:
         """Delete method.
 
         Args:
@@ -220,7 +221,7 @@ class CloudServiceMonitoringBackend:
         )
         return SSM.to_json(service)
 
-    def get_service(self, slo_config: dict) -> dict | None:
+    def get_service(self, slo_config: dict) -> Optional[dict]:
         """Get Service object from Cloud Service Monitoring API.
 
         Args:
@@ -281,7 +282,7 @@ class CloudServiceMonitoringBackend:
     def build_service_id(
         self,
         slo_config: dict,
-        dest_project_id: str | None = None,
+        dest_project_id: Optional[str] = None,
         full: bool = False,
     ):
         """Build service id from SLO configuration.
@@ -478,7 +479,7 @@ class CloudServiceMonitoringBackend:
             raise ValueError(f'Method "{method}" is not supported.')
         return slo
 
-    def get_slo(self, window: int, slo_config: dict) -> dict | None:
+    def get_slo(self, window: int, slo_config: dict) -> Optional[dict]:
         """Get SLO object from Cloud Service Monssitoring API.
 
         Args:
@@ -554,7 +555,7 @@ class CloudServiceMonitoringBackend:
         # LOGGER.debug(slos)
         return [SSM.to_json(slo) for slo in slos]
 
-    def delete_slo(self, window: int, slo_config: dict) -> dict | None:
+    def delete_slo(self, window: int, slo_config: dict) -> Optional[dict]:
         """Delete SLO from Cloud Service Monitoring API.
 
         Args:
@@ -633,7 +634,9 @@ class CloudServiceMonitoringBackend:
         return local_json == remote_json
 
     @staticmethod
-    def string_diff(string1: str | Sequence[str], string2: str | Sequence[str]) -> list:
+    def string_diff(
+        string1: Union[str, Sequence[str]], string2: Union[str, Sequence[str]]
+    ) -> list:
         """Diff 2 strings. Used to print comparison of JSONs for debugging.
 
         Args:

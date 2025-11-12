@@ -20,6 +20,7 @@ import json
 import logging
 import os
 import pprint
+from typing import Optional, Union
 
 from prometheus_http_client import Prometheus
 
@@ -140,9 +141,9 @@ class PrometheusBackend:
         self,
         filter: str,
         window: int,
-        timestamp: int | None = None,
-        operators: list | None = None,
-        labels: dict | None = None,
+        timestamp: Optional[int] = None,
+        operators: Union[list, None] = None,
+        labels: Union[dict, None] = None,
     ) -> dict:
         """Query Prometheus server.
 
@@ -188,8 +189,8 @@ class PrometheusBackend:
     def _fmt_query(
         query: str,
         window: int,
-        operators: list[str] | None = None,
-        labels: dict[str, str] | None = None,
+        operators: Union[list[str], None] = None,
+        labels: Union[dict[str, str], None] = None,
     ) -> str:
         """Format Prometheus query:
 
