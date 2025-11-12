@@ -118,6 +118,7 @@ class PrometheusBackend:
         res_good = self.query(
             expr,
             window,
+            timestamp=timestamp,
             operators=["increase", "sum"],
             labels=labels,
         )
@@ -131,6 +132,7 @@ class PrometheusBackend:
         res_valid = self.query(
             expr_count,
             window,
+            timestamp=timestamp,
             operators=["increase", "sum"],
         )
         valid_count = PrometheusBackend.count(res_valid)
